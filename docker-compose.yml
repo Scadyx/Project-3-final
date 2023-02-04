@@ -1,0 +1,22 @@
+services:
+  app:
+    image: app:0.0.1
+    ports: [ "8090:8090", "8070:8070"]
+    build:
+      context: .
+    environment:
+      POSTGRES_HOST: db
+
+  dbui:
+    image: dpage/pgadmin4:6
+    ports: [ "8080:8080" ]
+    environment:
+      PGADMIN_LISTEN_PORT: 8080
+      PGADMIN_DEFAULT_EMAIL: admin@pm.bet
+      PGADMIN_DEFAULT_PASSWORD: password
+  db:
+    image: postgres:14
+    ports: [ "5432:5432" ]
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: password
