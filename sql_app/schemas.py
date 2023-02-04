@@ -4,66 +4,84 @@ from pydantic import BaseModel
 from pydantic.schema import datetime
 
 
-class Sale(BaseModel):
-    sale_id: str
+class ProductCreate(BaseModel):
+    name: str
+
+
+class Product(ProductCreate):
+    product_id: int
+
+
+class CountryCreate(BaseModel):
+    country_name: int
+
+
+class Country(CountryCreate):
+    country_id: int
+
+
+class CityCreate(BaseModel):
+    city_name: str
+    country_id: int
+
+
+class City(CityCreate):
+    city_id: int
+
+
+class StoreCreate(BaseModel):
+    name: str
+    city_id: int
+
+
+class Store(StoreCreate):
+    store_id: int
+
+
+class UserCreate(BaseModel):
+    name: str
+
+
+class User(UserCreate):
+    user_id: int
+    
+
+class StatusNameCreate(BaseModel):
+    status_name: str
+
+
+class StatusName(StatusNameCreate):
+    status_name_id: int
+
+
+class SaleCreate(BaseModel):
     amount: float
-    date_sale: Union[int, None] = None
+    date_sale: Union[datetime, None] = None
     product_id: int
     user_id: int
     store_id: int
 
 
-class OrderStatusStats(BaseModel):
+class Sale(SaleCreate):
+    sale_id: str
+
+
+class OrderStatusCreate(BaseModel):
+    update_at: Union[datetime, None] = None
+    sale_id: str
+    status_name_id: int
+
+
+class OrderStatus(OrderStatusCreate):
+    order_status_id: str
+
+
+class OrderStatusStatsCreate(BaseModel):
     dt: datetime.date
     order_status_name: str
     orders_count: int
 
 
-class UserBase(BaseModel):
-
-    age: Union[int, None] = None
-    balance: Union[float, None] = None
-    birth_day: Union[str, None] = None
-    city: Union[str, None] = None
-    gender: Union[str, None] = None
-    ip: Union[str, None] = None
-    last_name: Union[str, None] = None
-    name: Union[str, None] = None
-    premium: Union[bool, None] = None
-    time_created: Union[int, None] = None
 
 
-class UserCreate(UserBase):
-    pass
 
-
-class User(UserBase):
-    id: int
-
-
-class BetBase(BaseModel):
-    date_created: Union[datetime.date, None] = None
-    user_id: int
-    event_id: int
-
-
-class BetCreate(BetBase):
-    pass
-
-
-class Bet(BetBase):
-    id: int
-
-
-class EventBase(BaseModel):
-    type: Union[str, None] = None
-    name: Union[str, None] = None
-    event_date: Union[datetime.date, None] = None
-
-
-class EventCreate(EventBase):
-    pass
-
-
-class Event(EventBase):
-    id: int
