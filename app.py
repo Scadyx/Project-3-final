@@ -1,6 +1,8 @@
 
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
+from pydantic.schema import datetime
+
 from sql_app import schemas
 from sql_app.database import Base, engine, SQLALCHEMY_DATABASE_URL
 from sql_app.cruds import users_crud, common
@@ -163,12 +165,12 @@ def get_all_sales():
 
 
 @app.get("/sale/{store_id}")
-def get_sale_by_id(sale_id: int):
+def get_sale_by_id(sale_id: str):
     return common.get("sale", sale_id=sale_id)
 
 
 @app.delete("/sale/{store_id}")
-def delete_sale_by_id(store_id: int):
+def delete_sale_by_id(sale_id: str):
     return common.delete("sale", sale_id=sale_id)
 
 
@@ -184,12 +186,12 @@ def get_all_order_statuses():
 
 
 @app.get("/order_status/{order_status_id}")
-def get_order_status_by_id(order_status_id: int):
+def get_order_status_by_id(order_status_id: str):
     return common.get("order_status", order_status_id=order_status_id)
 
 
 @app.delete("/order_status/{store_id}")
-def delete_order_status_by_id(order_status_id: int):
+def delete_order_status_by_id(order_status_id: str):
     return common.delete("order_status", order_status_id=order_status_id)
 
 
@@ -199,3 +201,11 @@ def delete_all_order_statuses():
 
 
 # order_status_stats
+@app.get("/order_status_stats")
+def get_all_order_status_stats():
+    return common.get("order_status_stats")
+
+
+@app.get("/order_status_stats/{dt}")
+def get_order_status_stats_by_dt(dt: datetime.date):
+    return common.get("order_status_stats", dt=f"'{dt}'")
