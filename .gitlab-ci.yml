@@ -1,0 +1,22 @@
+stages:
+  - build
+
+build_image:
+  stage:
+    - build
+
+  image: docker:20.10.22
+  services:
+    - docker:20.10.22-dind
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+  tags:
+    - group-5
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+  script:
+    - echo docker image $IMAGE_NAME:$IMAGE_TAG
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG . --build-arg MAINTAINER="$GITLAB_USER_NAME"
+    - docker push $IMAGE_NAME:$IMAGE_TAG
+  when: manual
+
