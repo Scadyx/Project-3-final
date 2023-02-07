@@ -87,3 +87,13 @@ variable "snapshot_identifier" {
   description = "The snapshot ID used to restore the DB instance"
   default     = null
 }
+
+variable "region" {
+  type   = string
+  description = "Selected AWS account region"
+}
+
+variable "account_id" {
+  type   = string
+  description = "AWS account id"
+}

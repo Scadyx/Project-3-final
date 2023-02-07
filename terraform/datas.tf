@@ -1,5 +1,5 @@
 data "aws_secretsmanager_secret" "by-arn" {
-  arn = "arn:aws:secretsmanager:eu-central-1:935764478194:secret:db-credentials-group-5-hUSdCB"
+  arn = "arn:aws:secretsmanager:${var.region}:${var.account_id}:secret:db-credentials-group-5-hUSdCB"
 }
 
 data "aws_secretsmanager_secret_version" "current" {
