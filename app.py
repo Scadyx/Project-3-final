@@ -2,7 +2,6 @@
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
 from pydantic.schema import datetime
-
 from sql_app import schemas
 from sql_app.database import Base, engine, SQLALCHEMY_DATABASE_URL
 from sql_app.cruds import users_crud, common

@@ -6,9 +6,10 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y gcc libpq-dev
 COPY sql_app ./sql_app
-COPY hw0*.py ./
-COPY data.jsonl ./data.jsonl
+COPY data ./data
+COPY dags ./dags
+COPY app.py ./
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-ENTRYPOINT ["/bin/sh", "-c" , "uvicorn hw02:app --host 0.0.0.0 --port 8090 & uvicorn hw03:app --host 0.0.0.0 --port 8070"]
+ENTRYPOINT ["/bin/sh", "-c" , "uvicorn app:app --host 0.0.0.0 --port 8090"]
