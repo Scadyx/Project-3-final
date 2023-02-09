@@ -1,7 +1,6 @@
-
+from datetime import datetime
 from typing import Union
 from pydantic import BaseModel
-from pydantic.schema import datetime
 
 
 class ProductCreate(BaseModel):
@@ -77,7 +76,7 @@ class OrderStatus(OrderStatusCreate):
 
 
 class OrderStatusStatsCreate(BaseModel):
-    dt: datetime.date
+    dt: datetime
     order_status_name: str
     orders_count: int
 
