@@ -1,0 +1,21 @@
+image: docker:latest
+
+stages:
+  - build
+
+before_script:
+  - docker login -u $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+
+build_api:
+  stage: build
+  script:
+    - export IMAGE_NAME="index.docker.io/oleksiihavryliuk/pm-api"
+    - docker build --pull -t "$IMAGE_NAME" --label "maintainer=$GITLAB_USER_NAME" .
+    - docker tag $IMAGE_NAME:latest
+    - docker push $IMAGE_NAME:latest
+  tags:
+    - group-5
+  when: manual
+
+
+
