@@ -4,7 +4,7 @@ stages:
   - build
 
 before_script:
-  - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+  - docker run --rm -t -e DOCKER_HUB_USERNAME=$DOCKER_HUB_USERNAME -e DOCKER_HUB_PASSWORD=$DOCKER_HUB_PASSWORD -v /var/run/docker.sock:/var/run/docker.sock docker:latest sh -c "echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin"
 
 build_api:
   stage: build
