@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators.postgres_operator import PostgresOperator
+from airflow.providers.postgres.operators.postgres import PostgresOperator
 from pendulum import yesterday
 
 from helpers.default_args import default_args
@@ -8,7 +8,7 @@ with DAG(
         dag_id="fill_order_status_stats_table",
         default_args=default_args,
         description="fill table order_status_stats DAG",
-        schedule_interval="@once",
+        schedule="@once",
         start_date=yesterday(),
         catchup=True,
 ) as dag:

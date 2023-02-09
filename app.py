@@ -1,7 +1,7 @@
+from datetime import datetime
 
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
-from pydantic.schema import datetime
 from sql_app import schemas
 from sql_app.database import Base, engine, SQLALCHEMY_DATABASE_URL
 from sql_app.cruds import users_crud, common
@@ -206,5 +206,5 @@ def get_all_order_status_stats():
 
 
 @app.get("/order_status_stats/{dt}")
-def get_order_status_stats_by_dt(dt: datetime.date):
+def get_order_status_stats_by_dt(dt: datetime):
     return common.get("order_status_stats", dt=f"'{dt}'")
