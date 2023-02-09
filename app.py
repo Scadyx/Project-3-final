@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import FastAPI
 from fastapi_sqlalchemy import DBSessionMiddleware
 from sql_app import schemas
-from sql_app.database import Base, engine, SQLALCHEMY_DATABASE_URL
+from sql_app.database import SQLALCHEMY_DATABASE_URL
 from sql_app.cruds import users_crud, common
 from sql_app.schemas import UserCreate
 
@@ -11,14 +11,9 @@ app = FastAPI()
 app.add_middleware(DBSessionMiddleware, db_url=SQLALCHEMY_DATABASE_URL)
 
 
-@app.on_event("startup")
-async def startup_event():
-    Base.metadata.create_all(bind=engine)
-
-
 @app.get("/")
 async def root():
-    return "Use /users, /bets, /events endpoint to get data or /docs to open page with all endpoints"
+    return "Use /docs to open page with all endpoints"
 
 
 # product
