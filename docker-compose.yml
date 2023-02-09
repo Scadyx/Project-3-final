@@ -32,7 +32,7 @@ services:
     build:
       context: .
     environment:
-      POSTGRES_HOST: db
+      POSTGRES_HOST: data
 
   dbui:
     image: dpage/pgadmin4:6
