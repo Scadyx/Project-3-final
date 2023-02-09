@@ -4,7 +4,7 @@ stages:
   - build
 
 before_script:
-  - docker login -u $DOCKER_HUB_USERNAME --password $DOCKER_HUB_PASSWORD
+  - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
 
 build_api:
   stage: build
@@ -16,6 +16,3 @@ build_api:
   tags:
     - group-5
   when: manual
-
-
-
