@@ -16,6 +16,38 @@ async def root():
     return "Use /docs to open page with all endpoints"
 
 
+# sale
+@app.get("/sale")
+def get_all_sales():
+    return common.get("sale")
+
+
+@app.get("/sale/{store_id}")
+def get_sale_by_id(sale_id: str):
+    return common.get("sale", sale_id=sale_id)
+
+
+@app.delete("/sale/{store_id}")
+def delete_sale_by_id(sale_id: str):
+    return common.delete("sale", sale_id=sale_id)
+
+
+@app.delete("/sale")
+def delete_all_sales():
+    return common.delete("sale")
+
+
+# order_status_stats
+@app.get("/order_status_stats")
+def get_all_order_status_stats():
+    return common.get("order_status_stats")
+
+
+@app.get("/order_status_stats/{dt}")
+def get_order_status_stats_by_dt(dt: datetime):
+    return common.get("order_status_stats", dt=f"'{dt}'")
+
+
 # product
 @app.get("/product")
 def get_all_products():
@@ -152,27 +184,6 @@ def delete_all_status_names():
     return common.delete("status_name")
 
 
-# sale
-@app.get("/sale")
-def get_all_sales():
-    return common.get("sale")
-
-
-@app.get("/sale/{store_id}")
-def get_sale_by_id(sale_id: str):
-    return common.get("sale", sale_id=sale_id)
-
-
-@app.delete("/sale/{store_id}")
-def delete_sale_by_id(sale_id: str):
-    return common.delete("sale", sale_id=sale_id)
-
-
-@app.delete("/sale")
-def delete_all_sales():
-    return common.delete("sale")
-
-
 # order_status
 @app.get("/order_status")
 def get_all_order_statuses():
@@ -192,14 +203,3 @@ def delete_order_status_by_id(order_status_id: str):
 @app.delete("/order_status")
 def delete_all_order_statuses():
     return common.delete("order_status")
-
-
-# order_status_stats
-@app.get("/order_status_stats")
-def get_all_order_status_stats():
-    return common.get("order_status_stats")
-
-
-@app.get("/order_status_stats/{dt}")
-def get_order_status_stats_by_dt(dt: datetime):
-    return common.get("order_status_stats", dt=f"'{dt}'")
