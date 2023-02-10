@@ -1,5 +1,7 @@
 fullnameOverride: "airflow-group5"
 airflowVersion: "2.5.1"
+airflow:
+  executor: KubernetesExecutor
 labels:
   group: "5"
 ingress:
