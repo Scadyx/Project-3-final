@@ -16,6 +16,7 @@ helm:
     - aws eks update-kubeconfig --name pmacademy
     - cd airflow/
   script:
+    - helm repo add apache-airflow https://airflow.apache.org/
     - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml
   rules:
     - changes:
