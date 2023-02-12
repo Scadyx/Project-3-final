@@ -41,6 +41,7 @@ workers:
     enabled: false
 dbMigrations:
   enabled: false
+
 dags:
   gitSync:
     branch: sale-api

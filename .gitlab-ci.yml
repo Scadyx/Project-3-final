@@ -10,8 +10,9 @@ helm:
   image: dtzar/helm-kubectl
   before_script:
     - export KUBECONFIG=$config
+    - cd airflow/
   script:
-    - helm upgrade airflow apache-airflow/airflow --namespace  group-5 -f values.yaml
+    - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml
   rules:
     - changes:
       - airflow/values.yaml
