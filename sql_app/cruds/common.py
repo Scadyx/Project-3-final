@@ -1,20 +1,25 @@
-from fastapi_sqlalchemy import db
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 
-def get(table: str, **args):
-    result = db.session.execute(text("select * " + get_query(table, **args)))
-    rows = []
-    for row in result:
-        rows.append(row)
-    return rows
+def get(db: Session, table: str, **args):
+    query = get_query(table, **args)
+    print(query)
+    print(text("select * " + query))
+    result = db.execute(text("select * " + query)).fetchall()
+    # rows = []
+    # for row in result:
+    #     rows.append(row)
+    print(result)
+    return result
 
 
-def delete(table: str, **args):
+def delete(db: Session, table: str, **args):
+    query = get_query(table, args)
     try:
-        db.session.execute(text("delete " + get_query(table, **args)))
-        db.session.commit()
+        db.execute(text("delete " + query))
+        db.commit()
     except IntegrityError:
         return {"error": "failed to delete"}
 

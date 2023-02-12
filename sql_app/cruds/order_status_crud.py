@@ -1,4 +1,3 @@
-from fastapi_sqlalchemy import db
 from sqlalchemy import text
 from sql_app import schemas
 from sql_app.cruds import common
