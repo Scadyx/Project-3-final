@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
@@ -6,7 +6,6 @@ from sql_app.database.database import SessionLocal
 from sql_app.cruds import sale_crud, order_status_crud, order_status_stats_crud
 from sql_app.schemas.sale_class import Sale
 from sql_app.schemas.order_status_class import OrderStatus
-from sql_app.schemas.order_status_stats_class import OrderStatusStats
 
 app = FastAPI()
 
@@ -56,14 +55,14 @@ def delete_all_sales(db: Session = Depends(get_db)):
 
 
 # order_status_stats
-# @app.get("/order_status_stats", tags=["order_status_stats"])
-# def get_all_order_status_stats(db: Session = Depends(get_db)):
-#     return common.get("order_status_stats")
-#
-#
-# @app.get("/order_status_stats/{dt}", tags=["order_status_stats"])
-# def get_order_status_stats_by_dt(db: Session = Depends(get_db), dt: datetime):
-#     return common.get("order_status_stats", dt=f"'{dt}'")
+@app.get("/order_status_stats", tags=["order_status_stats"])
+def get_all_order_status_stats(db: Session = Depends(get_db)):
+    return order_status_stats_crud.get_all_order_status_stats(db)
+
+
+@app.get("/order_status_stats/{dt}", tags=["order_status_stats"])
+def get_order_status_stats_by_dt(dt: datetime.date, db: Session = Depends(get_db)):
+    return order_status_stats_crud.get_order_status_stats_by_date(db, dt)
 
 
 # order_status
