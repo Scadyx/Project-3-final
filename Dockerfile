@@ -6,7 +6,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y gcc libpq-dev
 COPY sql_app ./sql_app
-COPY data ./data
+COPY sql_app/data ./data
 COPY sql_app/app.py ./
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt

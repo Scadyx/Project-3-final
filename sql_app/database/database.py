@@ -10,9 +10,15 @@ SQLALCHEMY_DATABASE_URL = "postgresql://postgres:qwerty123@rds-instance-group-5.
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL
 )
+
+
+def create_my_engine():
+    my_engine = create_engine(
+        SQLALCHEMY_DATABASE_URL
+    )
+    return my_engine
+
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
-
-
-

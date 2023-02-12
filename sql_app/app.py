@@ -2,7 +2,7 @@ import datetime
 
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from sql_app.database.database import SessionLocal
+from sql_app.database.database import SessionLocal, create_my_engine
 from sql_app.cruds import sale_crud, order_status_crud, order_status_stats_crud
 from sql_app.schemas.sale_class import Sale
 from sql_app.schemas.order_status_class import OrderStatus
@@ -16,6 +16,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
+@app.on_event("startup")
+async def startup():
+    engine = create_my_engine()
+    with open('data/create_tables.sql', 'r') as f:
+        sql_create = f.read()
+        engine.execute(sql_create)
+
 
 
 @app.get("/")

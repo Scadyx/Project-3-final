@@ -90,3 +90,5 @@ CREATE TABLE IF NOT EXISTS order_status_stats (
   orders_count INT NOT NULL,
   PRIMARY KEY (order_status_name, dt)
 );
+
+
