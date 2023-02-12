@@ -7,14 +7,13 @@ default:
 
 helm:
   stage: deploy
-  image: dtzar/helm-kubectl
+  image: pilovetsdanylo/aws-helm-k8s
   before_script:
     - export KUBECONFIG=${config}
     - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
     - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     - export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     - cd airflow/
-    - apk add --no-cache aws-cli-v2
   script:
     - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml --kubeconfig ${config}
   rules:
