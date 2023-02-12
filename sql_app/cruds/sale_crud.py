@@ -18,8 +18,8 @@ def create_sale(db: Session, sale: Sale):
 
 
 def update_sale_by_id(db: Session, sale: Sale, sale_id: str):
-    bet_data = sale.dict(exclude_unset=True)
-    for key, value in bet_data.items():
+    sale_data = sale.dict(exclude_unset=True)
+    for key, value in sale_data.items():
         stmt = text(f"UPDATE sale SET {key} = '{value}' WHERE sale_id = :sale_id")
         db.execute(stmt, {'sale_id': sale_id})
         db.commit()
@@ -45,10 +45,8 @@ def get_all_sales(db: Session):
 
 
 def delete_all_sales(db: Session):
-    # First set all references in order_status table to 'null'
     stmt = text("DELETE FROM order_status")
     db.execute(stmt)
-    # Then delete all rows from the sale table
     stmt = text("DELETE FROM sale;")
     db.execute(stmt)
     db.commit()

@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 
 class OrderStatus(BaseModel):
-    update_at: Union[datetime, None] = None
+    order_status_id: str
+    update_at: Union[datetime.datetime, None] = None
     sale_id: str
     status_name_id: int

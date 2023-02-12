@@ -3,8 +3,10 @@ from datetime import datetime
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from sql_app.database.database import SessionLocal
-from sql_app.cruds import sale_crud
+from sql_app.cruds import sale_crud, order_status_crud, order_status_stats_crud
 from sql_app.schemas.sale_class import Sale
+from sql_app.schemas.order_status_class import OrderStatus
+from sql_app.schemas.order_status_stats_class import OrderStatusStats
 
 app = FastAPI()
 
@@ -54,42 +56,41 @@ def delete_all_sales(db: Session = Depends(get_db)):
 
 
 # order_status_stats
-@app.get("/order_status_stats", tags=["order_status_stats"])
-def get_all_order_status_stats():
-    return common.get("order_status_stats")
-
-
-@app.get("/order_status_stats/{dt}", tags=["order_status_stats"])
-def get_order_status_stats_by_dt(dt: datetime):
-    return common.get("order_status_stats", dt=f"'{dt}'")
+# @app.get("/order_status_stats", tags=["order_status_stats"])
+# def get_all_order_status_stats(db: Session = Depends(get_db)):
+#     return common.get("order_status_stats")
+#
+#
+# @app.get("/order_status_stats/{dt}", tags=["order_status_stats"])
+# def get_order_status_stats_by_dt(db: Session = Depends(get_db), dt: datetime):
+#     return common.get("order_status_stats", dt=f"'{dt}'")
 
 
 # order_status
 @app.get("/order_status", tags=["order_status"])
-def get_all_order_statuses():
-    return common.get("order_status")
+def get_all_order_statuses(db: Session = Depends(get_db)):
+    return order_status_crud.get_all_order_statuses(db)
 
 
 @app.get("/order_status/{order_status_id}", tags=["order_status"])
-def get_order_status_by_id(order_status_id: str):
-    return common.get("order_status", order_status_id=order_status_id)
+def get_order_status_by_id(order_status_id: str, db: Session = Depends(get_db)):
+    return order_status_crud.get_order_status_by_id(db, order_status_id)
 
 
-@app.delete("/order_status/{store_id}", tags=["order_status"])
-def delete_order_status_by_id(order_status_id: str):
-    return common.delete("order_status", order_status_id=order_status_id)
-
+@app.delete("/order_status/{order_status_id}", tags=["order_status"])
+def delete_order_status_by_id(order_status_id: str, db: Session = Depends(get_db)):
+    return order_status_crud.delete_order_status_by_id(db, order_status_id)
 
 @app.delete("/order_status", tags=["order_status"])
-def delete_all_order_statuses():
-    return common.delete("order_status")
+def delete_all_order_statuses(db: Session = Depends(get_db)):
+    return order_status_crud.delete_all_order_statuses(db)
 
 
-@app.patch("/order_status", tags=["order_status"])
-def update_order_status():
-    return common.delete("order_status")
+@app.patch("/order_status/{order_status_id}", tags=["order_status"])
+def update_order_status(order_status_id: str, order_status: OrderStatus, db: Session = Depends(get_db)):
+    return order_status_crud.update_order_status_by_id(db, order_status, order_status_id)
 
 
 @app.post("/order_status", tags=["order_status"])
-def create_order_status():
-    return common.delete("order_status")
+def create_order_status(order_status: OrderStatus, db: Session = Depends(get_db)):
+    return order_status_crud.create_order_status(db, order_status)
