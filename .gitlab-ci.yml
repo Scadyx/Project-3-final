@@ -1,5 +1,10 @@
 stages:
   - deploy
+
+default:
+  tags:
+    - group-5
+
 helm:
   stage: deploy
   image: dtzar/helm-kubectl
