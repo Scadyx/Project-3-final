@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from sql_app.database.database import SessionLocal
-from sql_app.cruds import common, sale_crud
+from sql_app.cruds import sale_crud
 from sql_app.schemas.sale_class import Sale
 
 app = FastAPI()
@@ -28,9 +28,9 @@ async def create_sale(sale: Sale, db: Session = Depends(get_db)):
     return sale_crud.create_sale(db, sale)
 
 
-@app.patch("/sale", tags=["sales"])
-async def update_sale(sale: Sale, db: Session = Depends(get_db)):
-    return sale_crud.create_sale(db, sale)
+@app.patch("/sale/{sale_id}", tags=["sales"])
+async def update_sale(sale: Sale, sale_id: str, db: Session = Depends(get_db)):
+    return sale_crud.update_sale_by_id(db, sale, sale_id)
 
 
 @app.get("/sale", tags=["sales"])
