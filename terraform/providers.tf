@@ -9,3 +9,13 @@ provider "aws" {
     })
   }
 }
+
+provider "postgresql" {
+  host            = "rds-instance-group-5.c2ncm6mxe8zp.eu-central-1.rds.amazonaws.com"
+  port            = 5432
+  database        = "postgres"
+  username        = "postgres"
+  password        = "qwerty123"
+  sslmode         = "disable"
+  connect_timeout = 15
+}

@@ -15,6 +15,7 @@ resource "aws_db_instance" "this" {
   enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
   snapshot_identifier             = var.snapshot_identifier
 
+
   timeouts {
     create = var.timeouts.create
     update = var.timeouts.update
@@ -32,4 +33,9 @@ resource "aws_db_instance" "this" {
 resource "aws_db_subnet_group" "this" {
   name       = "subnet-group-5"
   subnet_ids = ["subnet-0443d448351d08f51", "subnet-060ac7b9ac7888077", "subnet-04927be24fcd4f20e"]
+}
+
+resource "postgresql_database" "my_db" {
+  name              = "metadata"
+  allow_connections = true
 }
