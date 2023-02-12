@@ -11,7 +11,7 @@ helm:
   before_script:
     - export KUBECONFIG=$config
   script:
-    - helm upgrade airflow apache-airflow/airflow --namespace  group5 -f values.yaml
+    - helm upgrade airflow apache-airflow/airflow --namespace  group-5 -f values.yaml
   rules:
     - changes:
       - airflow/values.yaml
