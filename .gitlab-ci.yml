@@ -15,7 +15,7 @@ helm:
     - export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
     - cd airflow/
   script:
-    - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml --kubeconfig /etc/rancher/k3s/k3s.yaml
+    - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml --kubeconfig ${config}
   rules:
     - changes:
       - airflow/values.yaml
