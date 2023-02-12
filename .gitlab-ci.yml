@@ -1,0 +1,12 @@
+stages:
+  - deploy
+helm:
+  stage: deploy
+  image: dtzar/helm-kubectl
+  before_script:
+    - export KUBECONFIG=$config
+  script:
+    - helm upgrade airflow apache-airflow/airflow --namespace  group5 -f values.yaml
+  rules:
+    - changes:
+      - airflow/values.yaml
