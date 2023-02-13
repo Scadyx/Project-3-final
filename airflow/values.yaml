@@ -25,8 +25,7 @@ data:
     host: rds-instance-group-5.c2ncm6mxe8zp.eu-central-1.rds.amazonaws.com
     port: 5432
     db: postgres
-    sslmode: disablee
-
+    sslmode: disable
 webserver:
   defaultUser:
       enabled: true
