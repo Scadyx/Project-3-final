@@ -1,30 +1,15 @@
-FROM alpine:3.9
+FROM python:3.10-slim-bullseye
 
-ENV HELM_VERSION v3.11.0
+RUN pip install --no-cache-dir --upgrade pip==22.3.1
 
-RUN apk --update --no-cache add \
-  bash \
-  ca-certificates \
-  curl \
-  jq \
-  git \
-  openssh-client \
-  python3 \
-  tar \
-  wget \
-  openssl
+WORKDIR /app
 
-RUN pip3 install --upgrade pip
-RUN pip3 install awscli
+RUN apt-get update && apt-get install -y gcc libpq-dev
+COPY sql_app ./sql_app
+COPY sql_app/data ./data
+COPY sql_app/app.py ./
+COPY requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 8080
 
-# Install helm
-RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && chmod 700 get_helm.sh && ./get_helm.sh
-  
-
-# Install latest kubectl
-RUN curl -L https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl_latest \
-  && chmod +x /usr/local/bin/kubectl_latest
-
-WORKDIR /work
-
-CMD ["helm", "version"]
+ENTRYPOINT ["/bin/sh", "-c" , "uvicorn app:app --host 0.0.0.0 --port 8080"]
