@@ -1,0 +1,58 @@
+fullnameOverride: "airflow-group5"
+airflowVersion: "2.5.1"
+airflow:
+  executor: KubernetesExecutor
+labels:
+  group: "5"
+ingress:
+  web:
+    enabled: false
+  flower:
+    enabled: false
+data:
+  metadataConnection:
+    user: postgres
+    pass: qwerty123
+    protocol: postgresql
+    host: rds-instance-group-5.c2ncm6mxe8zp.eu-central-1.rds.amazonaws.com
+    port: 5432
+    db: metadata
+    sslmode: disable
+  resultBackendConnection:
+    user: postgres
+    pass: qwerty123
+    protocol: postgresql
+    host: rds-instance-group-5.c2ncm6mxe8zp.eu-central-1.rds.amazonaws.com
+    port: 5432
+    db: postgres
+    sslmode: disable
+webserver:
+  defaultUser:
+      enabled: true
+      role: Admin
+      username: admin
+      email: admin@example.com
+      firstName: admin
+      lastName: user
+      password: admin
+postgresql:
+  enabled: false
+logs:
+  persistence:
+    enabled: false
+redis:
+  enabled: true
+  persistence:
+    enabled: false
+workers:
+  persistence:
+    enabled: false
+dbMigrations:
+  enabled: false
+dags:
+  gitSync:
+    branch: sale-api
+    enabled: true
+    repo: https://DanyloPilovets:glpat-eghLzyUXxYBK61dZqByh@git.java-academy.xyz/AnastasiiaSkorobogatova/project3-team5.git
+    rev: HEAD
+    subPath: dags

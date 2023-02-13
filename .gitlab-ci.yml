@@ -1,18 +1,23 @@
-image: docker:latest
-
 stages:
-  - build
+  - deploy
 
-before_script:
-  - docker run --rm -t -e DOCKER_HUB_USERNAME=$DOCKER_HUB_USERNAME -e DOCKER_HUB_PASSWORD=$DOCKER_HUB_PASSWORD -v /var/run/docker.sock:/var/run/docker.sock docker:latest sh -c "echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin"
-
-build_api:
-  stage: build
-  script:
-    - export IMAGE_NAME="index.docker.io/oleksiihavryliuk/pm-api"
-    - docker build --pull -t "$IMAGE_NAME" --label "maintainer=$GITLAB_USER_NAME" .
-    - docker tag $IMAGE_NAME:latest
-    - docker push $IMAGE_NAME:latest
+default:
   tags:
     - group-5
-  when: manual
+
+helm:
+  stage: deploy
+  image: pilovetsdanylo/aws-helm-k8s
+  before_script:
+    - export KUBECONFIG=${config}
+    - export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+    - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    - export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+    - aws eks update-kubeconfig --name pmacademy
+    - cd airflow/
+  script:
+    - helm repo add apache-airflow https://airflow.apache.org/
+    - helm upgrade --install airflow apache-airflow/airflow --namespace group-5 --create-namespace -f values.yaml
+  rules:
+    - changes:
+      - airflow/values.yaml
