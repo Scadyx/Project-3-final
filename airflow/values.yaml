@@ -51,7 +51,7 @@ dbMigrations:
   enabled: false
 dags:
   gitSync:
-    branch: sale-api
+    branch: main
     enabled: true
     repo: https://DanyloPilovets:glpat-eghLzyUXxYBK61dZqByh@git.java-academy.xyz/AnastasiiaSkorobogatova/project3-team5.git
     rev: HEAD
