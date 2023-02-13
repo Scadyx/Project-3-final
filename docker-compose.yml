@@ -1,7 +1,0 @@
-
-services:
-  app:
-    image: app:0.0.1
-    ports: [ "8090:8090" ]
-    build:
-      context: .
